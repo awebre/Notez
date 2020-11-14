@@ -1,0 +1,63 @@
+@using Shared.Models
+
+<EditForm Model="Lecture" OnValidSubmit="AddLecture">
+    <div>
+        <label>
+            Lecture Name:
+            <InputText @bind-Value="Lecture.Name"></InputText>
+        </label>
+    </div>
+    <div>
+        <label>
+            Link:
+            <InputText @bind-Value="Lecture.Link"></InputText>
+        </label>
+    </div>
+    @if (Lecture.CanStart)
+        {
+            <div>
+                <label>
+                    Start Session Immediately?
+                    <InputCheckbox @bind-Value="ShouldStartSession" />
+                </label>
+            </div>
+        }
+        <div>
+            <button class="btn btn-default" type="button" @onclick="Cancel">Cancel</button>
+            <button class="btn btn-primary" type="submit">Submit</button>
+        </div>
+    </EditForm>
+
+    @code {
+    [Parameter] public LectureDTO Lecture { get; set; }
+
+    [Parameter] public Action OnSubmitCallback { get; set; }
+
+    [Parameter] public Action OnCancelCallback { get; set; }
+
+    public bool ShouldStartSession { get; set; }
+
+    public void AddLecture()
+    {
+        if (ShouldStartSession)
+        {
+            Lecture.StartDateTime = DateTimeOffset.Now;
+        }
+
+        if (Lecture.SessionGuid == Guid.Empty)
+        {
+            Lecture.SessionGuid = Guid.NewGuid();
+            Database.Lectures.Add(Lecture);
+        }
+        else
+        {
+            //TODO: edit?
+        }
+        OnSubmitCallback?.Invoke();
+    }
+
+    public void Cancel()
+    {
+        OnCancelCallback?.Invoke();
+    }
+}
