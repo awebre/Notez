@@ -10,7 +10,7 @@
     <div>
         <label>
             Link:
-            <InputText @bind-Value="Lecture.Link"></InputText>
+            <InputText @bind-Value="Lecture.VideoLink"></InputText>
         </label>
     </div>
     @if (Lecture.CanStart)
@@ -44,9 +44,9 @@
             Lecture.StartDateTime = DateTimeOffset.Now;
         }
 
-        if (Lecture.SessionGuid == Guid.Empty)
+        if (Lecture.Id == Guid.Empty)
         {
-            Lecture.SessionGuid = Guid.NewGuid();
+            Lecture.Id = Guid.NewGuid();
             Database.Lectures.Add(Lecture);
         }
         else
