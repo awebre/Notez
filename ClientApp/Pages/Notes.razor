@@ -1,0 +1,34 @@
+@page "/notes"
+
+<Test></Test>
+
+<div>
+    <NotesInput Thing="@test"></NotesInput>
+
+</div>
+<div>
+    <table>
+        <thead>
+            <td>Private</td>
+            <td>LectureId</td>
+            <td>Note</td>
+            <td>Created</td>
+        </thead>
+        <tbody>
+            @foreach (var note in Database.Notes) {
+                <tr>
+                    <td>@note.Private</td>
+                    <td>@note.LectureID</td>
+                    <td>@note.Note</td>
+                    <td>@note.Created</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@code {
+    public void test() {
+        this.StateHasChanged();
+    }
+}
