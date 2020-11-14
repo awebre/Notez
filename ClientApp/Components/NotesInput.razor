@@ -1,3 +1,5 @@
+@using Shared.Models
+
 <EditForm Model="newNote" OnValidSubmit="OnSubmit">
         
     <span> Private <InputCheckbox @bind-Value="@newNote.Private"/> </span>
