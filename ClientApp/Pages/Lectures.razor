@@ -30,7 +30,8 @@ else
                     <th>Name</th>
                     <th>Start Date</th>
                     <th>End Date</th>
-                    <th>Link</th>
+                    <th>Video Link</th>
+                    <th>Session Link</th>
                 </tr>
             </thead>
             <tbody>
@@ -52,14 +53,28 @@ else
                         <td>@lecture.StartDateTime.ToNaString("g")</td>
                         <td>@lecture.EndDateTime.ToNaString("g")</td>
                         <td>
-                            @if(!string.IsNullOrEmpty(lecture.Link))
+                            @if(!string.IsNullOrEmpty(lecture.VideoLink))
                             {
-                                <a href="@lecture.Link" target="_blank">View</a>
+                                <a href="@lecture.VideoLink" target="_blank">View</a>
                             }
                             else 
                             {
                                 <span>n/a</span>
                             }
+                        </td>
+                        <td>
+                            @if(lecture.IsStarted && !lecture.IsEnded){
+                                <CopyToClipboard Text="@lecture.JoinLink"></CopyToClipboard>
+                            } 
+                            else if(lecture.IsEnded) 
+                            {
+                                <span>Lecture complete!</span>
+                            }
+                            else
+                            {
+                                <span>n/a</span>
+                            }
+
                         </td>
                     </tr>
                 }
@@ -80,7 +95,6 @@ else
     }
 
     public void EndAdd(){
-        Console.WriteLine("HAY!");
         isAdding = false;
         lecture = new LectureDTO();
         this.StateHasChanged();
@@ -93,6 +107,7 @@ else
     private void StartLecture(LectureDTO lecture)
     {
         lecture.StartDateTime = DateTimeOffset.Now;
+
     }
 
     private void EndLecture(LectureDTO lecture)

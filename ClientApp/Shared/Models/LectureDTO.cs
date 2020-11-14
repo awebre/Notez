@@ -4,11 +4,11 @@ namespace Notez.Shared.Models
 {
     public class LectureDTO
     {
-        public Guid SessionGuid { get; set; } = Guid.Empty;
+        public Guid Id { get; set; } = Guid.Empty;
 
         public string Name { get; set; }
 
-        public string Link { get; set; }
+        public string VideoLink { get; set; }
 
         public DateTimeOffset? StartDateTime { get; set; }
 
@@ -21,5 +21,7 @@ namespace Notez.Shared.Models
         public bool IsStarted => StartDateTime.HasValue;
 
         public bool IsEnded => EndDateTime.HasValue;
+
+        public string JoinLink => $"https://localhost:5001/notes/{Id}";
     }
 }
